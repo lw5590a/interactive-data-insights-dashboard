@@ -216,6 +216,10 @@ body {
     display: none; /* Hide when class is added */
 }
 
+.filter-section[style*="display: none"] {
+    display: none !important;
+}
+
 .filter-section h3 {
     margin-bottom: 1.5rem;
     color: #1a202c;
@@ -1716,4 +1720,326 @@ select[multiple]:focus {
 #settings .settings-card {
     margin: 0 !important;
     padding: 1rem !important;
+}
+
+/* Dynamic Filters */
+.dynamic-filters-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+    min-height: 50px;
+}
+
+.filter-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-summary i {
+    font-size: 1rem;
+}
+
+.dynamic-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.dynamic-filter label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.9rem;
+}
+
+.filter-info {
+    color: #6b7280;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+/* Portfolio Comparison Section */
+.portfolio-comparison-container {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.comparison-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #f3f4f6;
+}
+
+.comparison-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    flex-wrap: wrap;
+}
+
+.comparison-buttons .btn {
+    flex: 1;
+    min-width: 150px;
+}
+
+.comparison-view {
+    margin-bottom: 2rem;
+}
+
+.comparison-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f3f4f6;
+}
+
+.comparison-header h3 {
+    margin: 0;
+    color: #1a202c;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.comparison-panel {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 2px solid #e5e7eb;
+}
+
+.comparison-panel h4 {
+    margin-bottom: 1rem;
+    color: #1a202c;
+    font-size: 1.25rem;
+}
+
+.comparison-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.comparison-stats .stat-item {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+}
+
+.comparison-stats .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 0.25rem;
+}
+
+.comparison-stats .stat-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.comparison-chart {
+    min-height: 300px;
+    margin-bottom: 1.5rem;
+    background: white;
+    border-radius: 6px;
+    padding: 1rem;
+}
+
+.comparison-table {
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+
+.comparison-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.875rem;
+}
+
+.comparison-table th {
+    background-color: #f9fafb;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+}
+
+.comparison-metrics-section {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 2px solid #e5e7eb;
+}
+
+.comparison-metrics-section h4 {
+    margin-bottom: 1rem;
+    color: #1a202c;
+    font-size: 1.1rem;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.metric-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+
+.metric-label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.metric-values {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.metric-values span {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.metric-diff {
+    font-weight: 600;
+    margin-top: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.metric-diff.positive {
+    color: #059669;
+    background-color: #d1fae5;
+}
+
+.metric-diff.negative {
+    color: #dc2626;
+    background-color: #fee2e2;
+}
+
+.stat-range {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin-top: 0.25rem;
+}
+
+.comparison-chart-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid #f3f4f6;
+}
+
+.comparison-chart-section h4 {
+    margin-bottom: 1rem;
+    color: #1a202c;
+}
+
+.comparison-chart-container {
+    background: white;
+    border-radius: 6px;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    min-height: 400px;
+}
+
+.saved-comparisons {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid #f3f4f6;
+}
+
+.saved-comparisons h3 {
+    margin-bottom: 1rem;
+    color: #1a202c;
+}
+
+.comparisons-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.comparison-card {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.comparison-card:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.comparison-card h4 {
+    margin-bottom: 0.5rem;
+    color: #1a202c;
+}
+
+.comparison-card p {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.comparison-card-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.empty-message {
+    text-align: center;
+    color: #9ca3af;
+    padding: 2rem;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .comparison-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .comparisons-list {
+        grid-template-columns: 1fr;
+    }
 } 

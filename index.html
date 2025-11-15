@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Data Insights Dashboard</title>
+    <title>Glimpsy - Data Exploration Dashboard</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="api.js"></script>
+    <script src="app.js"></script>
 </head>
 <body>
     <div class="container">
@@ -17,12 +18,13 @@
             <div class="header-content">
                 <h1 class="logo">
                     <i class="fas fa-chart-line"></i>
-                    Interactive Data Insights
+                    Glimpsy
                 </h1>
                 <nav class="nav">
                     <ul class="nav-list">
                         <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
                         <li><a href="#datasets" class="nav-link">Datasets</a></li>
+                        <li><a href="#portfolio" class="nav-link">Portfolio Comparison</a></li>
                         <li><a href="#analytics" class="nav-link">Analytics</a></li>
                         <li><a href="#settings" class="nav-link">Settings</a></li>
                     </ul>
@@ -88,70 +90,9 @@
                                 <input type="date" id="endDate" class="form-control">
                             </div>
                         </div>
-                        <div class="filter-group metric-selector-group" id="metricSelectorGroup">
-                            <label>Select Metrics to Filter</label>
-                            <div class="metric-selector" id="metricSelector">
-                                <!-- Dynamic content will be inserted here -->
-                            </div>
-                            <div class="metric-selector-info">
-                                <small>Select which metrics you want to filter by</small>
-                            </div>
-                        </div>
-                        
-                        <div class="filter-group cd-type-filter" id="cdTypeFilterGroup">
-                            <label>CD Type Filter</label>
-                            <div class="multi-select-container">
-                                <select id="cdTypeFilter" class="form-control" multiple>
-                                    <option value="all">All CD Types</option>
-                                </select>
-                                <div class="multi-select-info">
-                                    <small>All types selected by default</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="filter-group customer-type-filter" id="customerTypeFilterGroup">
-                            <label>Customer Type Filter</label>
-                            <div class="multi-select-container">
-                                <select id="customerTypeFilter" class="form-control" multiple>
-                                    <option value="all">All Customer Types</option>
-                                </select>
-                                <div class="multi-select-info">
-                                    <small>All types selected by default</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="filter-group customer-segment-filter" id="customerSegmentFilterGroup">
-                            <label>Customer Segment Filter</label>
-                            <div class="multi-select-container">
-                                <select id="customerSegmentFilter" class="form-control" multiple>
-                                    <option value="all">All Segments</option>
-                                </select>
-                                <div class="multi-select-info">
-                                    <small>All segments selected by default</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="filter-group bank-filter" id="bankFilterGroup">
-                            <label>Bank Filter</label>
-                            <div class="multi-select-container">
-                                <select id="bankFilter" class="form-control" multiple>
-                                    <option value="all">All Banks</option>
-                                </select>
-                                <div class="multi-select-info">
-                                    <small>All banks selected by default</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="filter-group status-filter" id="statusFilterGroup">
-                            <label>Status Filter</label>
-                            <div class="multi-select-container">
-                                <select id="statusFilter" class="form-control" multiple>
-                                    <option value="all">All Statuses</option>
-                                </select>
-                                <div class="multi-select-info">
-                                    <small>All statuses selected by default</small>
-                                </div>
-                            </div>
+                        <!-- Dynamic Filters Container -->
+                        <div class="dynamic-filters-container" id="dynamicFiltersContainer">
+                            <!-- Filters will be dynamically generated here based on dataset columns -->
                         </div>
                         
                         <!-- Filter Action Buttons -->
@@ -165,74 +106,6 @@
                         </div>
                     </div>
                     
-                    <!-- Interest Rate Adjustment Section -->
-                    <div class="interest-rate-section" id="interestRateSection">
-                        <h3>Interest Rate Adjustment</h3>
-                        <div class="interest-rate-info">
-                            <p><i class="fas fa-info-circle"></i> You can adjust the interest rate to see how it affects your CD portfolio. Changes are applied to a copy of the data.</p>
-                        </div>
-                        <div class="interest-rate-controls">
-                            <div class="rate-adjustment">
-                                <label>Adjust Interest Rate</label>
-                                <div class="rate-buttons">
-                                    <button class="btn btn-sm btn-outline" id="decrease200bps">-200 bps</button>
-                                    <button class="btn btn-sm btn-outline" id="decrease100bps">-100 bps</button>
-                                    <button class="btn btn-sm btn-outline" id="decrease50bps">-50 bps</button>
-                                    <button class="btn btn-sm btn-outline" id="resetRate">Reset</button>
-                                    <button class="btn btn-sm btn-outline" id="increase50bps">+50 bps</button>
-                                    <button class="btn btn-sm btn-outline" id="increase100bps">+100 bps</button>
-                                    <button class="btn btn-sm btn-outline" id="increase200bps">+200 bps</button>
-                                </div>
-                                <div class="rate-info">
-                                    <small>Current adjustment: <span id="currentAdjustment">0 bps</span></small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Portfolio Selection -->
-                    <div class="portfolio-selection" id="portfolioSelection">
-                        <h3>Portfolio View</h3>
-                        <div class="portfolio-options">
-                            <div class="portfolio-option">
-                                <input type="radio" id="originalPortfolio" name="portfolio" value="original" checked>
-                                <label for="originalPortfolio">Original Data</label>
-                            </div>
-                            <div class="portfolio-option">
-                                <input type="radio" id="adjustedPortfolio" name="portfolio" value="adjusted">
-                                <label for="adjustedPortfolio">Adjusted Data</label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Numerical Threshold Section -->
-                    <div class="numerical-threshold-section">
-                        <h3>Numerical Threshold</h3>
-                        <div class="filter-group">
-                            <label>Interest Rate Range</label>
-                            <div class="threshold-inputs">
-                                <input type="number" id="minRate" class="form-control" placeholder="Min Rate (%)" step="0.01">
-                                <span>to</span>
-                                <input type="number" id="maxRate" class="form-control" placeholder="Max Rate (%)" step="0.01">
-                            </div>
-                        </div>
-                        <div class="filter-group">
-                            <label>Principal Amount Range</label>
-                            <div class="threshold-inputs">
-                                <input type="number" id="minPrincipal" class="form-control" placeholder="Min Amount ($)">
-                                <span>to</span>
-                                <input type="number" id="maxPrincipal" class="form-control" placeholder="Max Amount ($)">
-                            </div>
-                        </div>
-                        <div class="filter-group">
-                            <label>Days to Maturity Range</label>
-                            <div class="threshold-inputs">
-                                <input type="number" id="minDays" class="form-control" placeholder="Min Days">
-                                <span>to</span>
-                                <input type="number" id="maxDays" class="form-control" placeholder="Max Days">
-                            </div>
-                        </div>
-                    </div>
                     </div>
                 </div>
 
@@ -387,19 +260,98 @@
                         <div class="upload-area" id="uploadArea">
                             <div class="upload-content">
                                 <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Drag and drop your CSV file here or click to browse</p>
-                                <input type="file" id="fileInput" accept=".csv" style="display: none;">
+                                <p>Drag and drop your CSV or Parquet file here or click to browse</p>
+                                <input type="file" id="fileInput" accept=".csv,.parquet" style="display: none;">
                                 <button class="btn btn-outline" id="browseFilesBtn">Browse Files</button>
                             </div>
                         </div>
                         <div class="upload-requirements">
                             <h4>File Requirements:</h4>
                             <ul>
-                                <li>CSV format only</li>
+                                <li>CSV or Parquet format</li>
                                 <li>Maximum file size: 10MB</li>
-                                <li>First row should contain column headers</li>
+                                <li>First row should contain column headers (CSV)</li>
                                 <li>Data should be properly formatted</li>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Portfolio Comparison Section -->
+            <section id="portfolio" class="section">
+                <div class="section-header">
+                    <h2>Portfolio Comparison</h2>
+                    <p>Upload and compare two datasets side-by-side</p>
+                </div>
+                
+                <div class="portfolio-comparison-container">
+                    <div class="comparison-controls">
+                        <div class="form-group">
+                            <label for="comparisonName">Comparison Name</label>
+                            <input type="text" id="comparisonName" class="form-control" placeholder="Enter comparison name">
+                        </div>
+                        <div class="form-group">
+                            <label for="portfolioDataset1">Dataset 1</label>
+                            <select id="portfolioDataset1" class="form-control">
+                                <option value="">Select first dataset...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="portfolioDataset2">Dataset 2</label>
+                            <select id="portfolioDataset2" class="form-control">
+                                <option value="">Select second dataset...</option>
+                            </select>
+                        </div>
+                        <div class="comparison-buttons">
+                            <button class="btn btn-primary" id="createComparisonBtn">
+                                <i class="fas fa-balance-scale"></i> Create & Save Comparison
+                            </button>
+                            <button class="btn btn-info" id="quickCompareBtn">
+                                <i class="fas fa-eye"></i> Quick Compare (No Save)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="comparison-view" id="comparisonView" style="display: none;">
+                        <div class="comparison-header">
+                            <h3 id="comparisonTitle">Comparison</h3>
+                            <button class="btn btn-outline btn-sm" id="closeComparisonBtn">
+                                <i class="fas fa-times"></i> Close
+                            </button>
+                        </div>
+                        
+                        <!-- Comparison Metrics -->
+                        <div class="comparison-metrics-section" id="comparisonMetrics">
+                            <!-- Metrics will be generated here -->
+                        </div>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-panel">
+                                <h4 id="dataset1Name">Dataset 1</h4>
+                                <div class="comparison-stats" id="dataset1Stats"></div>
+                                <div class="comparison-chart" id="dataset1Chart"></div>
+                                <div class="comparison-table" id="dataset1Table"></div>
+                            </div>
+                            <div class="comparison-panel">
+                                <h4 id="dataset2Name">Dataset 2</h4>
+                                <div class="comparison-stats" id="dataset2Stats"></div>
+                                <div class="comparison-chart" id="dataset2Chart"></div>
+                                <div class="comparison-table" id="dataset2Table"></div>
+                            </div>
+                        </div>
+
+                        <!-- Side-by-side Comparison Chart -->
+                        <div class="comparison-chart-section">
+                            <h4>Side-by-Side Comparison</h4>
+                            <div class="comparison-chart-container" id="sideBySideChart"></div>
+                        </div>
+                    </div>
+
+                    <div class="saved-comparisons" id="savedComparisons">
+                        <h3>Saved Comparisons</h3>
+                        <div class="comparisons-list" id="comparisonsList">
+                            <p class="empty-message">No saved comparisons yet. Create one above to get started.</p>
                         </div>
                     </div>
                 </div>
@@ -560,7 +512,7 @@
                 </div>
                 <div class="form-group">
                     <label for="uploadFile">Select File</label>
-                    <input type="file" id="uploadFile" class="form-control" accept=".csv" required>
+                    <input type="file" id="uploadFile" class="form-control" accept=".csv,.parquet" required>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" id="cancelUploadBtn">Cancel</button>
